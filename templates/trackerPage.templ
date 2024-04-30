@@ -1,0 +1,122 @@
+package templates
+
+import (
+	"fmt"
+	"github.com/orestiskosko/hours-app/models"
+)
+
+templ TrackerPage(projects []models.Project) {
+	if IsHxRequest(ctx) {
+		@Navigation("/tracker")
+	}
+	<div
+		x-data="{ date: new Date() }"
+		class="flex flex-col flex-1"
+	>
+		<div class="flex flex-row justify-between items-center mb-12">
+			<h1 class="text-2xl font-semibold">Tracker</h1>
+			<div
+				class="flex items-center gap-2"
+			>
+				<div x-text="date.toDateString()" class="text-xl text-gray-900 font-semibold">Today</div>
+				<button type="button" title="Previous Day" @click="date = date.addDays(-1)">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 p-2 rounded-md text-gray-900 hover:bg-gray-200">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+					</svg>
+				</button>
+				<button type="button" title="Next Day" @click="date = date.addDays(1)">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 p-2 rounded-md text-gray-900 hover:bg-gray-200">
+						<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+					</svg>
+				</button>
+				<button type="button" title="Today" @click="date = new Date()">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 p-2 rounded-md text-gray-900 hover:bg-gray-200">
+						<path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path>
+					</svg>
+				</button>
+				<span class="relative w-10 h-10 p-2 text-gray-900 rounded-md hover:bg-gray-200">
+					<span class="absolute top-0 left-0 w-full h-full p-2">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"></path>
+						</svg>
+					</span>
+					<input
+						type="date"
+						title="Pick Date"
+						@change="date = $event.target.valueAsDate"
+						class="datepicker-input"
+					/>
+				</span>
+			</div>
+		</div>
+		<form class="flex flex-col flex-1 gap-8">
+			<div class="flex flex-col gap-2">
+				<label for="projects" class="block mb-2 text-sm font-medium text-gray-900">Select a project</label>
+				<select
+					hx-get="/tracker/tasks-select"
+					hx-trigger="change"
+					hx-target="#tasks_select"
+					hx-swap="innerHTML"
+					id="projects"
+					name="project_id"
+					class="h-12 px-4 border border-gray-300 rounded-md"
+				>
+					<option disabled selected value></option>
+					for _, project := range projects {
+						<option value={ fmt.Sprintf("%d", project.ID) }>{ project.Name }</option>
+					}
+				</select>
+			</div>
+			<div id="tasks" class="flex flex-col gap-2">
+				<label for="tasks" class="block mb-2 text-sm font-medium text-gray-900">Select a task</label>
+				<select
+					id="tasks_select"
+					name="task_id"
+					class="h-12 px-4 border border-gray-300 rounded-md"
+				>
+					<option disabled selected value></option>
+				</select>
+			</div>
+			@Timer("", false, "")
+		</form>
+	</div>
+}
+
+templ TaskOptions(tasks []models.Task) {
+	if len(tasks) > 0 {
+		for _, task := range tasks {
+			<option value={ fmt.Sprintf("%d", task.ID) }>{ task.Name }</option>
+		}
+	}
+}
+
+templ Timer(taskEntryId string, on bool, startedAt string) {
+	<div
+		id="timer"
+		x-data={ fmt.Sprintf(`timer("%s", %t,"%s")`, taskEntryId, on, startedAt) }
+		class="flex-1 flex flex-col items-center justify-center"
+	>
+		<input type="text" name="task_entry_id" value={ taskEntryId }/>
+		<button
+			hx-boost="true"
+			if on {
+				hx-post="/tracker/stop"
+			} else {
+				hx-post="/tracker/start"
+			}
+			hx-trigger="click"
+			hx-target="#timer"
+			type="submit"
+			@click="toggle"
+			class={ "text-gray-100 bg-gray-900 rounded-full h-80 w-80 border-green-700 flex flex-col items-center justify-center my-8 transition-all cursor-default",
+						templ.KV("border-8", on) }
+		>
+			<p x-text="getTimerDisplay" class="text-6xl"></p>
+			if on {
+				<span>Click to stop</span>
+			} else {
+				<span>Click to start</span>
+			}
+		</button>
+	</div>
+}

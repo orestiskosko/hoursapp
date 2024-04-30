@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "maxNodeModuleJsDepth": 1,
+    "noUnusedLocals": true,
+    "noImplicitAny": true
+  },
+  "input": ["public"]
+}

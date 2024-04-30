@@ -1,0 +1,29 @@
+package templates
+
+import "github.com/orestiskosko/hours-app/models"
+
+templ TasksPage(tasks []models.Task) {
+	if IsHxRequest(ctx) {
+		@Navigation("/tasks")
+	}
+	<div>
+		<div class="flex flex-row justify-between items-center mb-12">
+			<h1 class="text-2xl font-semibold">Tasks</h1>
+			<button
+				type="button"
+				hx-get="/tasks/create"
+				hx-push-url="true"
+				hx-target="#router"
+				hx-swap="innerHTML"
+				class="py-2 px-4 rounded-md text-gray-100 bg-gray-900"
+			>
+				+ Create Task
+			</button>
+		</div>
+		<ul>
+			for _, task := range tasks {
+				<li>{ task.Name } - { task.Details }</li>
+			}
+		</ul>
+	</div>
+}

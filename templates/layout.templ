@@ -1,0 +1,30 @@
+package templates
+
+templ Layout(contents templ.Component, activeRoute string) {
+	<html lang="en">
+		<head>
+			<title>My Site</title>
+			<script src="/main.js" type="module"></script>
+			<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+			<script src="//unpkg.com/alpinejs" defer></script>
+			<link rel="stylesheet" href="/output.css"/>
+			<link rel="stylesheet" href="/index.css"/>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+		</head>
+		<body class="flex flex-col h-full bg-gray-100">
+			<div class="flex flex-row h-full">
+				@Navigation(activeRoute)
+				<main class="flex flex-1 mx-24 xl:max-w-7xl xl:mx-auto pt-12">
+					<div
+						id="router"
+						class="w-full h-full"
+					>
+						@contents
+					</div>
+				</main>
+			</div>
+		</body>
+	</html>
+}

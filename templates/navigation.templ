@@ -1,0 +1,28 @@
+package templates
+
+templ Navigation(activeRoute string) {
+	<nav
+		id="navigation"
+		hx-swap-oob="true"
+		class="h-full w-60 flex flex-col py-12 px-4 bg-gray-50 border border-r-gray-300 shadow-lg"
+	>
+		<p class="text-xl tracking-wide">TrackApp</p>
+		<div class="h-12"></div>
+		@NavigationButton("Tracker", "/tracker", activeRoute == "/tracker")
+		@NavigationButton("Projects", "/projects", activeRoute == "/projects")
+		@NavigationButton("Tasks", "/tasks", activeRoute == "/tasks")
+		<div class="flex-1"></div>
+	</nav>
+}
+
+templ NavigationButton(title string, to string, isActive bool) {
+	<a
+		hx-get={ to }
+		hx-target="#router"
+		hx-push-url="true"
+		class={ templ.KV("py-3 pl-2 text-gray-700 hover:pl-4 border-l-4 border-inherit hover:border-gray-900 hover:text-gray-900 text-base font-semibold tracking-wide transition-all", !isActive),
+		 templ.KV("py-3 pl-4 border-l-4 border-gray-900 text-gray-900 text-base font-semibold tracking-wide transition-all", isActive) }
+	>
+		{ title }
+	</a>
+}
