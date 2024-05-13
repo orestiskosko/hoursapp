@@ -23,7 +23,7 @@ func CreateProject() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\"><h1 class=\"text-xl mb-12\">Create Project</h1><form method=\"post\" action=\"/projects\" hx-boost=\"true\" class=\"flex flex-col gap-8 w-80\"><div class=\"flex flex-col gap-2\"><label for=\"name\">Name</label> <input type=\"text\" name=\"name\" required class=\"h-12 px-4 border border-gray-300 rounded-md\"></div><div class=\"flex flex-col gap-2\"><label for=\"description\">Description</label> <input type=\"text\" name=\"description\" class=\"h-12 px-4 border border-gray-300 rounded-md\"></div><div class=\"flex flex-col gap-2\"><label for=\"unit_charge\">Unit Charge</label> <input type=\"number\" min=\"0\" name=\"unit_charge\" class=\"h-12 px-4 border border-gray-300 rounded-md\"></div><button type=\"submit\" class=\"h-9 w-20 text-sm bg-gray-900 text-gray-100 rounded-md border border-gray-300\">Create</button></form></div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -47,7 +47,7 @@ func CreateProjectSuccess() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Created!</div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -8,9 +8,13 @@ import (
 	"github.com/orestiskosko/hours-app/templates"
 )
 
+func IsHtmxRequest(c echo.Context) bool {
+	return c.Request().Header.Get("hx-request") == "true"
+}
+
 // This custom Render replaces Echo's echo.Context.Render() with templ's templ.Component.Render().
 func Render(ctx echo.Context, statusCode int, t templ.Component) error {
-	isHxRequest := ctx.Request().Header.Get("hx-request") == "true"
+	isHxRequest := IsHtmxRequest(ctx)
 
 	var template templ.Component
 	if isHxRequest {

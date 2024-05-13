@@ -26,12 +26,12 @@ func CreateTask(projects []models.Project) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\"><h1 class=\"text-xl mb-12\">Create Task</h1><form method=\"post\" action=\"/tasks\" hx-boost=\"true\" class=\"flex flex-col gap-8 w-80\"><div class=\"flex flex-col gap-2\"><label for=\"projects\" class=\"block mb-2 text-sm font-medium text-gray-900\">Select a project</label> <select id=\"projects\" name=\"project_id\" required class=\"h-12 px-4 border border-gray-300 rounded-md\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, project := range projects {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option value=\"")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -44,7 +44,7 @@ func CreateTask(projects []models.Project) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -57,12 +57,12 @@ func CreateTask(projects []models.Project) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select></div><div class=\"flex flex-col gap-2\"><label for=\"name\" class=\"block mb-2 text-sm font-medium text-gray-900\">Name</label> <input type=\"text\" name=\"name\" required class=\"h-12 px-4 border border-gray-300 rounded-md\"></div><div class=\"flex flex-col gap-2\"><label for=\"details\" class=\"block mb-2 text-sm font-medium text-gray-900\">Details</label> <input type=\"text\" name=\"details\" class=\"h-12 px-4 border border-gray-300 rounded-md\"></div><button type=\"submit\" class=\"h-9 w-20 text-sm bg-gray-900 text-gray-100 rounded-md border border-gray-300\">Create</button></form></div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"net/http"
 
@@ -21,10 +22,19 @@ func main() {
 	db.EnsureMigrated()
 
 	e := echo.New()
+
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 	e.Static("/", "public")
+
+	e.HTTPErrorHandler = func(err error, c echo.Context) {
+		c.Logger().Error(err.Error())
+		event := fmt.Sprintf(`{"showToaster": { "message": "%s" } }`, err.Error())
+		c.Response().Header().Set("HX-Trigger", event)
+		c.Response().Header().Set("HX-Reswap", "none")
+		c.Response().Status = http.StatusNoContent
+	}
 
 	e.GET("/", func(c echo.Context) error {
 		return c.Redirect(http.StatusMovedPermanently, "/tracker")

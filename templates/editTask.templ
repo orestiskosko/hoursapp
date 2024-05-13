@@ -1,0 +1,47 @@
+package templates
+
+import "github.com/orestiskosko/hours-app/models"
+import "fmt"
+
+templ EditTask(task models.Task) {
+	<div class="flex flex-col">
+		<h1 class="text-xl mb-12">Edit Task</h1>
+		<form
+			method="PUT"
+			action={ templ.SafeURL(fmt.Sprintf("/tasks/%d", task.ID)) }
+			hx-boost="true"
+			class="flex flex-col gap-8 w-80"
+		>
+			<div class="flex flex-col gap-2">
+				<label for="project" class="block mb-2 text-sm font-medium text-gray-900">Project</label>
+				<input
+					type="text"
+					name="project"
+					value={ task.Project.Name }
+					disabled
+					class="h-12 px-4 border border-gray-300 rounded-md"
+				/>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+				<input
+					type="text"
+					name="name"
+					required
+					value={ task.Name }
+					class="h-12 px-4 border border-gray-300 rounded-md"
+				/>
+			</div>
+			<div class="flex flex-col gap-2">
+				<label for="details" class="block mb-2 text-sm font-medium text-gray-900">Details</label>
+				<input
+					type="text"
+					name="details"
+					value={ task.Details }
+					class="h-12 px-4 border border-gray-300 rounded-md"
+				/>
+			</div>
+			<button type="submit" class="h-9 w-20 text-sm bg-gray-900 text-gray-100 rounded-md border border-gray-300">Update</button>
+		</form>
+	</div>
+}
